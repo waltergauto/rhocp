@@ -1,0 +1,2 @@
+oc get csr
+oc get csr -o name | xargs -l1 oc adm certificate approve
