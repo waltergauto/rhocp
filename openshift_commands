@@ -1,2 +1,3 @@
-oc get csr
-oc get csr -o name | xargs -l1 oc adm certificate approve
+oc get csr //get all certificates
+oc get csr -o name | xargs -l1 oc adm certificate approve //renew certificates
+oc adm policy add-cluster-role-to-user cluster-admin admin //add cluster-admin role to admin user
