@@ -1,3 +1,30 @@
 oc get csr //get all certificates
 oc get csr -o name | xargs -l1 oc adm certificate approve //renew certificates
 oc adm policy add-cluster-role-to-user cluster-admin admin //add cluster-admin role to admin user
+
+### Chapter 1
+oc version
+oc api-versions
+oc cluster-info
+oc status -n openshift-authentication
+
+### Chapter 2
+oc adm top pods -n openshift-etcd --containers
+oc adm node-logs master01 -u crio --tail 1
+oc debug job/test --as-user=1000000
+oc adm must-gather --dest-dir /home/student/must-gather
+oc adm inspect clusteroperator/openshift-apiserver clusteroperator/kube-apiserver
+oc adm inspect clusteroperator/openshift-apiserver --since 10m
+oc adm top pods -A --sum
+oc adm inspect clusteroperator/openshift-apiserver --dest-dir /home/student/inspect --since 5m
+oc api-resources --namespaced
+oc api-resources --api-group ''
+oc api-resources --api-group 'oauth.openshift.io'
+oc get events -n openshift-kube-controller-manager
+oc get pods etcd-master01 -n openshift-etcd -o json | jq '.status.conditions'
+oc adm top pods etcd-master01 -n openshift-etcd --containers --sum
+oc get node/master01 -o jsonpath='{.status.allocatable.pods}{"\n"}'
+oc adm top pods -A --sum
+oc get node/master01 -o jsonpath='Allocatable: {.status.allocatable.cpu}{"\n"}''Capacity: {.status.capacity.cpu}{"\n"}'
+
+### Chapter 3
