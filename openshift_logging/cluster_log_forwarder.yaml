@@ -1,0 +1,21 @@
+apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: logging
+  namespace: openshift-logging
+spec:
+  managementState: Managed
+  outputs:
+    - loki:
+        url: 'http://<loki-server>:3100'
+      name: loki
+      type: loki
+  pipelines:
+    - inputRefs:
+        - application
+        - infrastructure
+      name: logs-to-loki
+      outputRefs:
+        - loki
+  serviceAccount:
+    name: log-collector
