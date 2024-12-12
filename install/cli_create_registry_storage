@@ -1,0 +1,13 @@
+oc edit configs.imageregistry.operator.openshift.io
+
+Switch the managementState from Removed to Managed
+
+oc patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"rolloutStrategy":"Recreate","replicas":1}}'
+
+oc apply -f pvc.yaml
+
+oc edit configs.imageregistry.operator.openshift.io
+
+storage:
+  pvc:
+    claim: image-registry-storage

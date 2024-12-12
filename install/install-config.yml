@@ -1,0 +1,54 @@
+apiVersion: v1
+baseDomain: DOMAIN
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    vsphere:
+      cpus: 8
+      memoryMB: 32728
+      osDisk:
+        diskSizeGB: 120
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    vsphere:
+      cpus: 8
+      memoryMB: 16384
+      osDisk:
+        diskSizeGB: 120
+  replicas: 3
+metadata:
+  name: NAME
+networking:
+  clusterNetwork:
+  - cidr: 10.180.0.0/14
+    hostPrefix: 21
+  machineNetwork:
+  - cidr: 10.26.0.0/16 //Virtual Machine's Network
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 175.30.0.0/16
+platform:
+  vsphere:
+    apiVIP: VCENTER_IP
+    cluster: CLUSTER
+    datacenter: DATACENTER
+    defaultDatastore: DATASTORE 
+    ingressVIP: INGRESS_VIP
+    network: NETWORK
+    password: PASSWORD
+    username: USERNAME
+    vCenter: VCENTER_NAME
+publish: External
+pullSecret: PULL_SECRET
+sshKey: |
+  SSH_KEY_BASTION_USER
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  OWN CA
+  -----END CERTIFICATE-----
