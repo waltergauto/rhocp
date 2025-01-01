@@ -1,13 +1,30 @@
-oc edit configs.imageregistry.operator.openshift.io
+### Switch the managementState from Removed to Managed
+oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"managementState":"Managed"}}'
 
-Switch the managementState from Removed to Managed
+### Verify that you do not have a registry pod
+oc get pod -n openshift-image-registry -l docker-registry=default
 
+### Configuring block registry storage for VMware vSphere
 oc patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"rolloutStrategy":"Recreate","replicas":1}}'
+
+### Create a pvc for registry
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: image-registry-storage 
+  namespace: openshift-image-registry 
+spec:
+  accessModes:
+  - ReadWriteOnce 
+  resources:
+    requests:
+      storage: 100Gi
 
 oc apply -f pvc.yaml
 
+### Add reference to storage
 oc edit configs.imageregistry.operator.openshift.io
 
 storage:
   pvc:
-    claim: image-registry-storage
+    claim:

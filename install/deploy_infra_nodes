@@ -1,0 +1,6 @@
+https://docs.openshift.com/container-platform/4.17/machine_management/creating-infrastructure-machinesets.html
+
+Create a machine set for infra nodes using worker machine set
+oc get machineset <cluster-id-worker-id> -n openshift-machine-api -o yaml >> infra_machineset.yaml
+Replace worker by infra
+Add labels and taints based on this documentation: https://access.redhat.com/solutions/5034771
