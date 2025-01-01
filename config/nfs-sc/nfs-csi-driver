@@ -1,0 +1,34 @@
+### Install the HELM cli tool
+# Download the helm binary and save it to $HOME/bin/helm
+curl -L -o $HOME/bin/helm https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64
+
+# Allow helm to be executed
+chmod a+x $HOME/bin/helm
+
+# Confirm that helm is working by reporting the version
+helm version
+
+# Tell helm where to find the csi-driver-nfs chart repository
+helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+
+# Ask helm to list the repo contents.
+helm search repo -l csi-driver-nfs
+
+### Install everything, but don't try to recreate the external snapshot CRDs that OpenShift install by default
+helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --version v4.9.0 \
+  --create-namespace \
+  --namespace csi-driver-nfs \
+  --set controller.runOnControlPlane=true \
+  --set controller.replicas=2 \
+  --set controller.strategyType=RollingUpdate \
+  --set externalSnapshotter.enabled=true \
+  --set externalSnapshotter.customResourceDefinitions.enabled=false
+
+### Grant additional permissions to the Service Account
+oc adm policy add-scc-to-user privileged -z csi-nfs-node-sa -n csi-driver-nfs
+oc adm policy add-scc-to-user privileged -z csi-nfs-controller-sa -n csi-driver-nfs
+
+### Apply yaml files
+oc apply -f sc.yaml
+oc apply -f pvc.yaml //testing pvc with nfs-csi-driver
+oc get pvc //must show Bound status
