@@ -26,13 +26,13 @@ metadata:
   name: NAME
 networking:
   clusterNetwork:
-  - cidr: 10.180.0.0/14
+  - cidr: 10.128.0.0/14
     hostPrefix: 21
   machineNetwork:
   - cidr: 10.26.0.0/16 //Virtual Machine's Network
-  networkType: OpenShiftSDN
+  networkType: OVNKubernetes
   serviceNetwork:
-  - 175.30.0.0/16
+  - 172.30.0.0/16
 platform:
   vsphere:
     apiVIP: VCENTER_IP
@@ -44,6 +44,8 @@ platform:
     password: PASSWORD
     username: USERNAME
     vCenter: VCENTER_NAME
+    diskType: thin
+    folder: FULL_FOLDER
 publish: External
 pullSecret: PULL_SECRET
 sshKey: |
