@@ -12,8 +12,8 @@ spec:
     log:
       mode: console
     security:
-      admin_password: redhat
-      admin_user: admin
+      admin_password: <password>
+      admin_user: <username>
   route:
     metadata: {}
     spec:
