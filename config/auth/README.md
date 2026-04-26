@@ -1,5 +1,12 @@
-Requirements
-- htpasswd file 
+### Requirements
+- htpasswd file
+#### Get htpasswd binary
+Based on RHEL
+dnf install -y httpd-tools
+
+#### Create a htpasswd file
+htpasswd -c -B -b htpasswd <user> <password>
+
 - kustomization
 #### Apply manifests
 Create secret using secret generator
