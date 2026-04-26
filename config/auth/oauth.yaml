@@ -4,7 +4,7 @@ metadata:
   name: cluster
 spec:
   identityProviders:
-  - name: my_htpasswd_provider
+  - name: htpasswd-auth
     mappingMethod: claim
     type: HTPasswd
     htpasswd:
